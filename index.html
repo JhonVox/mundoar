@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerTech AR - Componentes de PC en Realidad Aumentada</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #ff0055;
+            --secondary-color: #00ffff;
+            --background-color: #111;
+            --text-color: #fff;
+            --card-bg: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            min-width: 160px;
+            z-index: 1;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .hero {
+            background-image: url('https://yvkjjzjjszzfnhxkdcwv.supabase.co/storage/v1/object/public/images/gaming-pc.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            color: var(--background-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .components {
+            padding: 4rem 0;
+        }
+
+        .components h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .component-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .component-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .component-info {
+            padding: 1.5rem;
+        }
+
+        .component-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .component-info p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .ar-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--background-color);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .ar-button:hover {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .about {
+            background-color: var(--card-bg);
+            padding: 4rem 0;
+        }
+
+        .about h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        footer {
+            background-color: #000;
+            color: var(--text-color);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-icons {
+            font-size: 1.5rem;
+        }
+
+        .social-icons a {
+            color: var(--text-color);
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-image {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">RealidadAumentada</div>
+            <div class="nav-links">
+                <a href="#home">Inicio</a>
+                <div class="dropdown">
+                    <a href="#components" class="dropbtn">Componentes</a>
+                    <div class="dropdown-content">
+                        <a href="#graphics-cards">Tarjetas Gráficas</a>
+                        <a href="#processors">Procesadores</a>
+                        <a href="#memory">Memorias RAM</a>
+                        <a href="#storage">Almacenamiento</a>
+                    </div>
+                </div>
+                <a href="#about">Nosotros</a>
+                <a href="#contact">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Objetos en Realidad Aumentada</h1>
+                <p>Conoce todo a tu alrededor en Realidad Aumentada a tu gusto</p>
+                <a href="#components" class="cta-button">Ver Componentes</a>
+            </div>
+        </section>
+
+        <section id="components" class="components">
+            <div class="container">
+                <h2>Componentes Gamer</h2>
+                <div class="component-grid">
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Tarjeta Gráfica RTX 3080</h3>
+                            <p>Experimenta gráficos de última generación con ray tracing en tiempo real.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Procesador Ryzen 9 5950X</h3>
+                            <p>Potencia extrema para gaming y creación de contenido.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>RAM RGB 32GB DDR4</h3>
+                            <p>Memoria de alta velocidad con iluminación RGB personalizable.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>SSD NVMe 1TB</h3>
+                            <p>Almacenamiento ultrarrápido para cargas instantáneas.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Placa Base X570</h3>
+                            <p>Conectividad y rendimiento de última generación para tu build.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Fuente de Poder 850W Gold</h3>
+                            <p>Energía estable y eficiente para componentes de alta gama.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Caja Gaming RGB</h3>
+                            <p>Diseño elegante con flujo de aire optimizado e iluminación RGB.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Refrigeración Líquida AIO</h3>
+                            <p>Mantén tu CPU fresca con estilo y rendimiento silencioso.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Monitor Gaming 240Hz</h3>
+                            <p>Visualización ultra fluida para gaming competitivo.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                    <div class="component-card">
+                        <div class="component-image" style="background-image: url('/placeholder.svg?height=200&width=300');"></div>
+                        <div class="component-info">
+                            <h3>Teclado Mecánico RGB</h3>
+                            <p>Precisión y personalización para cada tecla que presiones.</p>
+                            <a href="#" class="ar-button">Ver en AR</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>Sobre Nosotros</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Imagina poder interactuar con tus objetos favoritos de una manera totalmente innovadora. Con nuestra plataforma de realidad aumentada, eso ya es una realidad. Te ofrecemos una experiencia inmersiva que transforma la forma en que exploras, compras.</p>
+                        <p>Disfruta de todo a tu alrededor con realidad aumentada</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="data:image/png;base64,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" alt="Equipo GamerTech AR">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links"  >
+                    
+                    <a href="#home">Intagram</a>
+                    <a href="#about">Facebook</a>
+                    <a href="#contact">Whatsapp</a>
+                    
+                </div>
+                
+            </div>
+            
+            <p>&copy; 2024 GamerTech AR. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
